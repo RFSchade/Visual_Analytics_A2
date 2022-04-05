@@ -8,7 +8,6 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-
 # Import teaching utils
 import numpy as np
 import utils.classifier_utils as clf_util

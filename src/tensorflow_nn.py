@@ -1,39 +1,40 @@
-#=======================================================#
-#=============> Neural Network Classifier <=============#
-#=======================================================#
+#=======================================================================#
+#=============> Neural Network Classifier With Tensorflow <=============#
+#=======================================================================#
 
-#=====> Import modules
-# System tools
+#=====> Import modules 
+# data tools
 import os
-import sys
-import argparse
-sys.path.append(os.getcwd())
-
-# Data tools
 import numpy as np
-from tqdm import tqdm
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# Cifar-10 data
-from tensorflow.keras.datasets import cifar10
+# Function tools
+import argparse
+from tqdm import tqdm
 
 # Image manipulation tools
 import cv2
 
-# Import teaching utils
-import utils.classifier_utils as clf_util
-
-# Neural network 
-from utils.neuralnetwork import NeuralNetwork
-
-# Import sklearn metrics
-from sklearn import metrics
+# sklearn tools
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.metrics import classification_report
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelBinarizer
 
-#=====> Define Functions
-#=====> Define Functions
+# tf tools
+import tensorflow as tf
+from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.optimizers import SGD
+
+#=====> Define global variables 
+# Number of epochs
+EPOCHS = 150
+
+#=====> Define functions
 # > Load mnist data 
 def load_mnist():
     # Print info 
@@ -95,39 +96,71 @@ def prep_data(X_train, X_test, y_train, y_test):
     
     return (X_train_scaled, X_test_scaled, y_train_binarized, y_test_binarized)
 
-# > Train model
-def train_model(X_train, y_train):
-    # Print info
-    print("[INFO] Training network...")
-    # Defining shape of input
-    input_shape = X_train.shape[1]
-    # Initialyzing model
-    nn = NeuralNetwork([input_shape, 64, 10]) 
-    # Print info
-    print(f"[INFO] {nn}")
-    # Training model 
-    nn.fit(X_train, y_train, epochs=150, displayUpdate=1) 
+# > Create model
+def create_model(data_width):
+    # Print info 
+    print("[INFO] Initializing model")
     
-    return nn
+    # define simple architecture 784x256x128x10
+    model = Sequential()
+    model.add(Dense(256, input_shape=(data_width,), activation="relu"))
+    model.add(Dense(128, activation="relu"))
+    model.add(Dense(10, activation="softmax")) #softmax generalises LogReg for multiclass tasks
+    
+    # define the gradient descent
+    sgd = SGD(0.01)
+    # compile model
+    model.compile(loss="categorical_crossentropy",
+                  optimizer=sgd,
+                  metrics=["accuracy"])
+    
+    # Print info
+    print("[INFO] Model summary:")
+    model.summary()
+    
+    return model
 
-# > Report
-def report(nn, X_test, y_test, label_names, data):
+# > Evaluate model
+def report(model, X_test, y_test, label_names, data):
     # Print info 
     print("[info] Reporting results...")
-    # Predict classification of test data
-    predictions = nn.predict(X_test)
-    # Define prediction variable
-    y_pred = predictions.argmax(axis=1) 
-    # Get metrics
-    report = metrics.classification_report(y_test.argmax(axis=1), 
-                                           y_pred,
-                                           target_names=label_names)
+    # evaluate network
+    predictions = model.predict(X_test, batch_size=32)
+    # print classification report
+    report = classification_report(y_test.argmax(axis=1), 
+                                   predictions.argmax(axis=1), 
+                                   target_names=label_names)
     # Print metrics
     print(report)
     # Save metrics
-    outpath = os.path.join("output", f"nn_report_{data}.txt")
+    outpath = os.path.join("output", f"tensorflow_report_{data}.txt")
     with open(outpath, "w") as f:
         f.write(report)
+        
+# > Plot history
+def plot_history(H, epochs, data):
+    plt.style.use("seaborn-colorblind")
+
+    plt.figure(figsize=(12,6))
+    plt.subplot(1,2,1)
+    plt.plot(np.arange(0, epochs), H.history["loss"], label="train_loss")
+    plt.plot(np.arange(0, epochs), H.history["val_loss"], label="val_loss", linestyle=":")
+    plt.title("Loss curve")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.tight_layout()
+    plt.legend()
+
+    plt.subplot(1,2,2)
+    plt.plot(np.arange(0, epochs), H.history["accuracy"], label="train_acc")
+    plt.plot(np.arange(0, epochs), H.history["val_accuracy"], label="val_acc", linestyle=":")
+    plt.title("Accuracy curve")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.tight_layout()
+    plt.legend()
+    # Saving image
+    plt.savefig(os.path.join("output", f"history_img_{data}.png"))
 
 # > Create argument
 def parse_args(): 
@@ -156,17 +189,26 @@ def main():
     else:
         # Load data
         X_train, X_test, y_train, y_test, label_names = load_mnist()
-        
     # processing data
     X_train, X_test, y_train, y_test = prep_data(X_train, X_test, y_train, y_test)
-    # Training model 
-    nn = train_model(X_train, y_train)
-    # Reporting data 
-    report(nn, X_test, y_test, label_names, args["data"])
+    
+    # Building model
+    model = create_model(X_train.shape[1])
+    # Train model with extra validation split
+    history = model.fit(X_train, y_train,
+                        validation_data = (X_test, y_test),
+                        epochs = EPOCHS,
+                        validation_split = 0.1,
+                        batch_size = 32,
+                        verbose = 1)
+    # Evaluate model
+    report(model, X_test, y_test, label_names, args["data"])
+    # Plot history
+    plot_history(history, EPOCHS, args["data"])
     
     # Print info 
     print("[INFO] Job complete")
-
+    
 # Run main() function from terminal only
 if __name__ == "__main__":
     main()

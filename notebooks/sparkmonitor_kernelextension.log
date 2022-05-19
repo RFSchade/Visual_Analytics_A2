@@ -1,25 +1,25 @@
-INFO:  2022-04-05 16:10:30,317 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
+INFO:  2022-05-19 10:20:23,087 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
  Starting Kernel Extension 
 
-INFO:  2022-04-05 16:10:30,379 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
- Socket Listening on port 33833 
+INFO:  2022-05-19 10:20:23,092 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
+ Socket Listening on port 57251 
 
-INFO:  2022-04-05 16:10:30,380 - sparkmonitorkernel - 526 - MainProcess -         139674048050944 - Thread-7
+INFO:  2022-05-19 10:20:23,093 - sparkmonitorkernel - 850 - MainProcess -         139848439617280 - Thread-7
  Starting socket thread, going to accept 
 
-INFO:  2022-04-05 16:10:30,381 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
- 33833 
+INFO:  2022-05-19 10:20:23,094 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
+ 57251 
 
-INFO:  2022-04-05 16:10:30,382 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
+INFO:  2022-05-19 10:20:23,095 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
  Adding jar from /opt/conda/lib/python3.9/site-packages/sparkmonitor/listener.jar  
 
-INFO:  2022-04-05 16:10:30,661 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
+INFO:  2022-05-19 10:20:24,959 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
  COMM OPENED MESSAGE: 
- {'header': {'date': datetime.datetime(2022, 4, 5, 14, 10, 30, 449000, tzinfo=tzutc()), 'msg_id': '8e60b29a-971c-4d8d-95cc-41d3ea9805a1', 'msg_type': 'comm_open', 'session': '4cdb242f-0fe9-4443-952e-ad2fe8a30a7f', 'username': '', 'version': '5.2'}, 'msg_id': '8e60b29a-971c-4d8d-95cc-41d3ea9805a1', 'msg_type': 'comm_open', 'parent_header': {}, 'metadata': {}, 'content': {'comm_id': 'ba55e884-b26a-4020-b61b-77693eed20b6', 'target_name': 'SparkMonitor', 'data': {'msgtype': 'openfromfrontend'}}, 'buffers': []} 
+ {'header': {'date': datetime.datetime(2022, 5, 19, 8, 20, 23, 810000, tzinfo=tzutc()), 'msg_id': '3b20c7a1-6004-4c0b-a397-24b719857864', 'msg_type': 'comm_open', 'session': 'eea6771a-e02d-49db-bdba-4bcc74a4bff2', 'username': '', 'version': '5.2'}, 'msg_id': '3b20c7a1-6004-4c0b-a397-24b719857864', 'msg_type': 'comm_open', 'parent_header': {}, 'metadata': {}, 'content': {'comm_id': '1515a1ed-be9e-422a-829e-f7d18fa7cd7c', 'target_name': 'SparkMonitor', 'data': {'msgtype': 'openfromfrontend'}}, 'buffers': []} 
  
 
-INFO:  2022-04-05 16:10:30,667 - sparkmonitorkernel - 526 - MainProcess -         139683756664640 - MainThread
+INFO:  2022-05-19 10:20:24,963 - sparkmonitorkernel - 850 - MainProcess -         139858148255552 - MainThread
  COMM OPENED MESSAGE: 
- {'header': {'date': datetime.datetime(2022, 4, 5, 14, 10, 30, 450000, tzinfo=tzutc()), 'msg_id': '63038697-6f88-453c-8ef7-808b176d297a', 'msg_type': 'comm_open', 'session': '4cdb242f-0fe9-4443-952e-ad2fe8a30a7f', 'username': '', 'version': '5.2'}, 'msg_id': '63038697-6f88-453c-8ef7-808b176d297a', 'msg_type': 'comm_open', 'parent_header': {}, 'metadata': {}, 'content': {'comm_id': 'c478e8c5-70ec-41ed-80f7-48b5db5632ed', 'target_name': 'SparkMonitor', 'data': {'msgtype': 'openfromfrontend'}}, 'buffers': []} 
+ {'header': {'date': datetime.datetime(2022, 5, 19, 8, 20, 23, 810000, tzinfo=tzutc()), 'msg_id': '67f7783e-44c7-417e-9c9e-54d6770a6a6b', 'msg_type': 'comm_open', 'session': 'eea6771a-e02d-49db-bdba-4bcc74a4bff2', 'username': '', 'version': '5.2'}, 'msg_id': '67f7783e-44c7-417e-9c9e-54d6770a6a6b', 'msg_type': 'comm_open', 'parent_header': {}, 'metadata': {}, 'content': {'comm_id': '71a5e1d4-74ca-426a-b116-10f7fe6a4070', 'target_name': 'SparkMonitor', 'data': {'msgtype': 'openfromfrontend'}}, 'buffers': []} 
  
 
